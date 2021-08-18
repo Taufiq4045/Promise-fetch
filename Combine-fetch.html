@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE-edge">
+        <meta name="viewport" content="width = device-width, initial-scale=1.0">
+        <title>Front End</title>
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <style>
+            .main-container{
+                    display:flex;
+                    flex-wrap:wrap;
+                    gap:20px;
+                    }
+
+
+           .flag-container{
+                     width: 250px;
+                     height: auto;
+                     background-color: white;
+                     overflow: hidden;
+                     margin: 10px;
+                     border-radius: 10px;
+                     box-shadow: 3px 3px 10px rgb(102, 100, 100);
+                    }
+
+                 img{
+                     width:250px;
+                     height:150px;
+                     transition: transform;
+                    }
+
+               img:hover {
+                     transform:scale(1.5);
+                    }
+
+                .details{
+                    padding:10px;
+                    }
+
+
+           
+        </style>
+    </head>
+    <body>
+        
+        <script>
+            let asiaRegion = fetch('https://restcountries.eu/rest/v2/region/asia').then((data) => data.json()).catch((errMsg) => console.log(errMsg));
+
+            let europeRegion = fetch('https://restcountries.eu/rest/v2/region/europe').then((data) => data.json()).catch((errMsg) => console.log(errMsg));
+
+            Promise.all([asiaRegion,europeRegion]).then((data) => [...data[0],...data[1]]).then((countries) => countries.forEach((country) => createFlag(country))) 
+
+            var page = document.createElement("div");
+                page.className = "main-container";
+                document.body.append(page);
+
+
+            function createFlag({name, flag, population, region, capital}){
+  
+                 page.innerHTML +=` 
+                <div class="flag-container">
+                <img class="flag" src=${flag}>
+     
+                <div class="details">
+               <h3>${name}</h3>
+               <p><b>Population: </b>${population}</p>
+               <p><b>Region: </b>${region}</p>
+               <p><b>Capital: </b>${capital}</p>
+               </div>
+               </div>`;                 
+               }
+
+
+        </script>
+    
+        <script src="/js/jquery-3.6.0.min.js"></script>
+       <script src="/js/bootstrap.min.js"></script>
+    </body>
+</html> 
